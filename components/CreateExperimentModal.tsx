@@ -36,56 +36,56 @@ export default function CreateExperimentModal({ onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-md w-full p-6">
-        <h2 className="text-xl font-bold mb-4">Create Experiment</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white border-2 border-black w-full max-w-lg p-8">
+        <h2 className="text-2xl font-bold mb-6 tracking-tight">CREATE EXPERIMENT</h2>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Title
+            <label className="block text-xs font-bold tracking-wider mb-2">
+              TITLE
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full border rounded-md px-3 py-2"
+              className="input-field"
               placeholder="Launch landing page"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Hypothesis
+            <label className="block text-xs font-bold tracking-wider mb-2">
+              HYPOTHESIS
             </label>
             <textarea
               value={hypothesis}
               onChange={(e) => setHypothesis(e.target.value)}
               required
               rows={3}
-              className="w-full border rounded-md px-3 py-2"
+              className="input-field resize-none"
               placeholder="If we launch a landing page, we will get 100 signups in 2 weeks"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Metric Name
+            <label className="block text-xs font-bold tracking-wider mb-2">
+              METRIC NAME
             </label>
             <input
               type="text"
               value={metricName}
               onChange={(e) => setMetricName(e.target.value)}
               required
-              className="w-full border rounded-md px-3 py-2"
+              className="input-field"
               placeholder="Signups"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Target Value
+            <label className="block text-xs font-bold tracking-wider mb-2">
+              TARGET VALUE
             </label>
             <input
               type="number"
@@ -93,29 +93,29 @@ export default function CreateExperimentModal({ onClose }: Props) {
               value={targetValue}
               onChange={(e) => setTargetValue(e.target.value)}
               required
-              className="w-full border rounded-md px-3 py-2"
+              className="input-field"
               placeholder="100"
             />
           </div>
 
           {error && (
-            <div className="text-red-600 text-sm">{error}</div>
+            <div className="border-2 border-black p-3 text-sm">{error}</div>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="btn-primary flex-1"
             >
-              {loading ? 'Creating...' : 'Create'}
+              {loading ? 'CREATING...' : 'CREATE'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border py-2 rounded-md hover:bg-gray-50"
+              className="btn-secondary flex-1"
             >
-              Cancel
+              CANCEL
             </button>
           </div>
         </form>

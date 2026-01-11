@@ -26,11 +26,11 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="bg-white p-8 rounded-lg shadow">
+    <div className="card">
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
+          <label htmlFor="email" className="block text-sm font-bold tracking-wide mb-2">
+            EMAIL
           </label>
           <input
             id="email"
@@ -38,13 +38,13 @@ export default function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+            className="input-field"
           />
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-            Password
+          <label htmlFor="password" className="block text-sm font-bold tracking-wide mb-2">
+            PASSWORD
           </label>
           <input
             id="password"
@@ -52,26 +52,28 @@ export default function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2"
+            className="input-field"
           />
         </div>
 
         {error && (
-          <div className="text-red-600 text-sm">{error}</div>
+          <div className="border-2 border-black bg-white p-3 text-sm">
+            {error}
+          </div>
         )}
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+          className="btn-primary w-full"
         >
-          {loading ? 'Loading...' : isSignUp ? 'Sign Up' : 'Sign In'}
+          {loading ? 'LOADING...' : isSignUp ? 'SIGN UP' : 'SIGN IN'}
         </button>
 
         <button
           type="button"
           onClick={() => setIsSignUp(!isSignUp)}
-          className="w-full text-sm text-blue-600 hover:text-blue-500"
+          className="w-full text-sm hover:opacity-70 transition-opacity underline"
         >
           {isSignUp ? 'Already have an account? Sign in' : 'Need an account? Sign up'}
         </button>

@@ -17,7 +17,7 @@ export default function DashboardClient({ initialExperiments, initialMetrics }: 
   const [selectedExperiment, setSelectedExperiment] = useState<Experiment | null>(null)
 
   async function handleDelete(id: string) {
-    if (confirm('Are you sure you want to delete this experiment?')) {
+    if (confirm('Delete this experiment?')) {
       await deleteExperiment(id)
     }
   }
@@ -28,85 +28,84 @@ export default function DashboardClient({ initialExperiments, initialMetrics }: 
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       {/* Metrics */}
       {initialMetrics && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <MetricCard label="Total Experiments" value={initialMetrics.total} />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <MetricCard label="TOTAL" value={initialMetrics.total} />
           <MetricCard 
-            label="Shipped" 
-            value={`${initialMetrics.shipped} (${initialMetrics.shippedPercentage}%)`}
-            color="green" 
+            label="SHIPPED" 
+            value={`${initialMetrics.shipped}`}
+            subtext={`${initialMetrics.shippedPercentage}%`}
           />
           <MetricCard 
-            label="Killed" 
-            value={`${initialMetrics.killed} (${initialMetrics.killedPercentage}%)`}
-            color="red" 
+            label="KILLED" 
+            value={`${initialMetrics.killed}`}
+            subtext={`${initialMetrics.killedPercentage}%`}
           />
-          <MetricCard label="Active" value={initialMetrics.active} color="blue" />
+          <MetricCard label="ACTIVE" value={initialMetrics.active} />
         </div>
       )}
 
       {/* Header */}
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Experiments</h2>
+        <h2 className="text-3xl font-bold tracking-tight">EXPERIMENTS</h2>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+          className="btn-primary"
         >
-          New Experiment
+          NEW EXPERIMENT
         </button>
       </div>
 
       {/* Experiments List */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {initialExperiments.length === 0 ? (
-          <div className="text-center py-12 bg-white rounded-lg border">
-            <p className="text-gray-500">No experiments yet. Create one to get started.</p>
+          <div className="card text-center py-16">
+            <p className="text-gray-500 text-lg">No experiments yet.</p>
+            <p className="text-gray-400 text-sm mt-2">Create one to get started.</p>
           </div>
         ) : (
           initialExperiments.map(exp => (
-            <div key={exp.id} className="bg-white p-6 rounded-lg border">
-              <div className="flex justify-between items-start">
+            <div key={exp.id} className="card">
+              <div className="flex justify-between items-start gap-6">
                 <div className="flex-1">
-                  <div className="flex items-center gap-3">
-                    <h3 className="text-lg font-semibold">{exp.title}</h3>
+                  <div className="flex items-center gap-4 mb-3">
+                    <h3 className="text-xl font-bold tracking-tight">{exp.title}</h3>
                     <StatusBadge status={exp.status} />
                   </div>
-                  <p className="text-gray-600 mt-2">{exp.hypothesis}</p>
-                  <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                  <p className="text-gray-700 mb-6">{exp.hypothesis}</p>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                     <div>
-                      <span className="text-gray-500">Metric:</span>{' '}
-                      <span className="font-medium">{exp.metric_name}</span>
+                      <div className="font-bold text-xs tracking-wider mb-1">METRIC</div>
+                      <div>{exp.metric_name}</div>
                     </div>
                     <div>
-                      <span className="text-gray-500">Target:</span>{' '}
-                      <span className="font-medium">{exp.target_value}</span>
+                      <div className="font-bold text-xs tracking-wider mb-1">TARGET</div>
+                      <div>{exp.target_value}</div>
                     </div>
                     {exp.observed_value !== null && (
-                      <>
-                        <div>
-                          <span className="text-gray-500">Observed:</span>{' '}
-                          <span className="font-medium">{exp.observed_value}</span>
-                        </div>
-                      </>
+                      <div>
+                        <div className="font-bold text-xs tracking-wider mb-1">OBSERVED</div>
+                        <div>{exp.observed_value}</div>
+                      </div>
                     )}
                   </div>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2">
                   {exp.status === 'active' && (
                     <button
                       onClick={() => openResultModal(exp)}
-                      className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      className="btn-secondary text-xs px-4 py-2"
                     >
-                      Submit Result
+                      SUBMIT
                     </button>
                   )}
                   <button
                     onClick={() => handleDelete(exp.id)}
-                    className="text-red-600 hover:text-red-700 text-sm font-medium"
+                    className="btn-danger"
                   >
-                    Delete
+                    DELETE
                   </button>
                 </div>
               </div>
@@ -132,28 +131,25 @@ export default function DashboardClient({ initialExperiments, initialMetrics }: 
   )
 }
 
-function MetricCard({ label, value, color }: { label: string; value: string | number; color?: string }) {
-  const colorClass = color === 'green' ? 'text-green-600' :
-                     color === 'red' ? 'text-red-600' :
-                     color === 'blue' ? 'text-blue-600' : 'text-gray-900'
-  
+function MetricCard({ label, value, subtext }: { label: string; value: string | number; subtext?: string }) {
   return (
-    <div className="bg-white p-6 rounded-lg border">
-      <div className="text-sm text-gray-500">{label}</div>
-      <div className={`text-2xl font-bold mt-2 ${colorClass}`}>{value}</div>
+    <div className="card">
+      <div className="text-xs font-bold tracking-wider mb-2">{label}</div>
+      <div className="text-3xl font-bold">{value}</div>
+      {subtext && <div className="text-sm text-gray-600 mt-1">{subtext}</div>}
     </div>
   )
 }
 
 function StatusBadge({ status }: { status: string }) {
-  const colors = {
-    active: 'bg-blue-100 text-blue-800',
-    shipped: 'bg-green-100 text-green-800',
-    killed: 'bg-red-100 text-red-800'
+  const styles = {
+    active: 'bg-white border-black text-black',
+    shipped: 'bg-black border-black text-white',
+    killed: 'bg-white border-black text-black'
   }
   
   return (
-    <span className={`px-2 py-1 rounded text-xs font-medium ${colors[status as keyof typeof colors]}`}>
+    <span className={`badge ${styles[status as keyof typeof styles]}`}>
       {status.toUpperCase()}
     </span>
   )

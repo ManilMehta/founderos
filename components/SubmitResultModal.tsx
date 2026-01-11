@@ -33,29 +33,29 @@ export default function SubmitResultModal({ experiment, onClose }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-md w-full p-6">
-        <h2 className="text-xl font-bold mb-4">Submit Result</h2>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white border-2 border-black w-full max-w-lg p-8">
+        <h2 className="text-2xl font-bold mb-6 tracking-tight">SUBMIT RESULT</h2>
         
-        <div className="mb-4 p-4 bg-gray-50 rounded">
-          <h3 className="font-semibold">{experiment.title}</h3>
-          <p className="text-sm text-gray-600 mt-1">{experiment.hypothesis}</p>
-          <div className="mt-3 text-sm">
+        <div className="mb-6 p-6 border-2 border-black">
+          <h3 className="font-bold text-lg mb-2">{experiment.title}</h3>
+          <p className="text-gray-700 text-sm mb-4">{experiment.hypothesis}</p>
+          <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-500">Metric:</span>{' '}
-              <span className="font-medium">{experiment.metric_name}</span>
+              <div className="font-bold text-xs tracking-wider mb-1">METRIC</div>
+              <div>{experiment.metric_name}</div>
             </div>
             <div>
-              <span className="text-gray-500">Target:</span>{' '}
-              <span className="font-medium">{experiment.target_value}</span>
+              <div className="font-bold text-xs tracking-wider mb-1">TARGET</div>
+              <div>{experiment.target_value}</div>
             </div>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Observed {experiment.metric_name}
+            <label className="block text-xs font-bold tracking-wider mb-2">
+              OBSERVED {experiment.metric_name.toUpperCase()}
             </label>
             <input
               type="number"
@@ -63,32 +63,32 @@ export default function SubmitResultModal({ experiment, onClose }: Props) {
               value={observedValue}
               onChange={(e) => setObservedValue(e.target.value)}
               required
-              className="w-full border rounded-md px-3 py-2"
+              className="input-field"
               placeholder="Enter actual result"
             />
-            <p className="text-xs text-gray-500 mt-1">
-              The system will automatically determine if this experiment should be shipped or killed
+            <p className="text-xs text-gray-600 mt-2">
+              System will automatically determine ship or kill
             </p>
           </div>
 
           {error && (
-            <div className="text-red-600 text-sm">{error}</div>
+            <div className="border-2 border-black p-3 text-sm">{error}</div>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-4">
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
+              className="btn-primary flex-1"
             >
-              {loading ? 'Submitting...' : 'Submit'}
+              {loading ? 'SUBMITTING...' : 'SUBMIT'}
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 border py-2 rounded-md hover:bg-gray-50"
+              className="btn-secondary flex-1"
             >
-              Cancel
+              CANCEL
             </button>
           </div>
         </form>
